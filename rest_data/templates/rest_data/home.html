@@ -116,8 +116,8 @@
             <td >Rocktrading </td>
             <td class="currencyy">{{currency}}</td>
             <td >{{data.bid_qty}}</td>
-            <td >{{data.bid}}</td>
-            <td >{{data.ask}}</td>
+            <td >{{data.bid |floatformat:8|intcomma}}</td>
+            <td >{{data.ask |floatformat:8|intcomma}}</td>
             <td >{{data.ask_qty}}</td>
           </tr>
           {% endfor %}
@@ -127,8 +127,8 @@
             <td >Hitbtc </td>
             <td class="currencyy">{{currency}}</td>
             <td >{{data.bid_qty}}</td>
-            <td >{{data.bid}}</td>
-            <td >{{data.ask}}</td>
+            <td >{{data.bid |floatformat:8|intcomma}}</td>
+            <td >{{data.ask |floatformat:8|intcomma}}</td>
             <td >{{data.ask_qty}}</td>
           </tr>
           {% endfor %}
@@ -138,8 +138,8 @@
             <td >Kraken </td>
             <td class="currencyy">{{currency}}</td>
             <td >{{data.bid_qty}}</td>
-            <td >{{data.bid}}</td>
-            <td >{{data.ask}}</td>
+            <td >{{data.bid |floatformat:8|intcomma}}</td>
+            <td >{{data.ask|floatformat:8|intcomma}}</td>
             <td >{{data.ask_qty}}</td>
           </tr>
           {% endfor %}
