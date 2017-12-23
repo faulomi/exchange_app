@@ -1,252 +1,253 @@
-  {% extends "rest_data/base.html" %}
-  {% load humanize %}
-  {% block title %}exchange data{% endblock %}
-  {% block content %}
+{% extends "rest_data/base.html" %}
+{% load humanize %}
+{% block title %}exchange data{% endblock %}
+{% block content %}
 
-  <header class="cd-header">
-    <h2>Exchange Data</h2>
-  </header>
+<header class="cd-header">
+  <h2>Exchange Data</h2>
+</header>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-md-3">
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-3">
 
+      <div class="checkbox" id="filter">
+        <p><input class="btn btn-primary" type="button" value="Refresh" id="ClickMe"/>
+        </p>
 
+        <label><input id="selectAll" type="checkbox" > Select All</label>
 
-
-        <div class="checkbox" id="filter">
-          <p><input type="button" value="Refresh" id="ClickMe"/></p>
-
-          <!--<label><input id="selectAll" type="checkbox" > Select All</label>-->
-
-
-
-          <div id="bittrexButton" class="selectList"
-               onmouseover="this.style.color='blue';" onmouseout="this.style.color='#6C7A89';">Bittrex</div>
-          <div id="bittrexSelectList">
-            {% for pair in bittrex_pair %}
-            <label>
-              <input class="{{pair}}" name="checkboxList" type="checkbox"  value="{{pair}}" id="{{pair}}"> {{pair}}
-            </label><br>
-            {% endfor %}
-          </div>
-
-          <div id="bxthButton" class="selectList"
-               onmouseover="this.style.color='blue';" onmouseout="this.style.color='#6C7A89'; ">Bxth</div>
-          <div id="bxthSelectList">
-            {% for pair in bxth_pair %}
-            <label>
-              <input class="{{pair}}" name="checkboxList"  type="checkbox"  value="{{pair}}" id="{{pair}}"> {{pair}}
-            </label><br>
-            {% endfor %}
-          </div>
-
-          <div id="rocktradingButton" class="selectList"
-               onmouseover="this.style.color='blue';" onmouseout="this.style.color='#6C7A89';">Rocktrading</div>
-          <div id="rocktradingSelectList">
-            {% for pair in rocktrading_pair %}
-            <label>
-              <input class="{{pair}}" name="checkboxList"  type="checkbox"  value="{{pair}}" id="{{pair}}"> {{pair}}
-            </label><br>
-            {% endfor %}
-          </div>
-
-          <div id="hitbtcButton" class="selectList"
-               onmouseover="this.style.color='blue';" onmouseout="this.style.color='#6C7A89';">Hitbtc</div>
-          <div id="hitbtcSelectList">
-            {% for pair in hitbtc_pair %}
-            <label>
-              <input class="{{pair}}" name="checkboxList"  type="checkbox"  value="{{pair}}" id="{{pair}}"> {{pair}}
-            </label><br>
-            {% endfor %}
-          </div>
-
-          <div id="krakenButton" class="selectList"
-               onmouseover="this.style.color='blue';" onmouseout="this.style.color='#6C7A89';">Kraken</div>
-          <div id="krakenSelectList">
-            {% for pair in kraken_pair %}
-            <label>
-              <input class="{{pair}}" name="checkboxList"  type="checkbox"  value="{{pair}}" id="{{pair}}"> {{pair}}
-            </label><br>
-            {% endfor %}
-          </div>
-
+        <div id="bittrexButton" class="selectList"
+             onmouseover="this.style.color='blue';" onmouseout="this.style.color='#6C7A89';">Bittrex</div>
+        <div id="bittrexSelectList">
+          {% for pair in bittrex_pair %}
+          <label>
+            <input class="checkboxClass" name="checkboxList" type="checkbox"  value="{{pair}}" id="{{pair}}"> {{pair}}
+          </label><br>
+          {% endfor %}
         </div>
-      </div>
 
-      <div class="col-xs-12 col-md-3">
-        <table class="table table-striped" id="tabela1">
-          <thead>
-          <tr >
-            <th>Exchange</th>
-            <th>Currency</th>
-            <th>Bid Qty</th>
-            <th>Bid</th>
-            <th>Ask</th>
-            <th>Ask Qty</th>
-          </tr>
-          </thead>
-          <tbody>
-
-
-          {% for currency,data in bittrex.items %}
-          <tr>
-            <td >Bittrex </td>
-            <td class="currencyy">{{currency}}</td>
-            <td >{{data.bid_qty}}</td>
-            <td >{{data.bid |floatformat:8|intcomma}}</td>
-            <td >{{data.ask |floatformat:8|intcomma}}</td>
-            <td >{{data.ask_qty}}</td>
-          </tr>
+        <div id="bxthButton" class="selectList"
+             onmouseover="this.style.color='blue';" onmouseout="this.style.color='#6C7A89'; ">Bxth</div>
+        <div id="bxthSelectList">
+          {% for pair in bxth_pair %}
+          <label>
+            <input class="checkboxClass" name="checkboxList"  type="checkbox"  value="{{pair}}" id="{{pair}}"> {{pair}}
+          </label><br>
           {% endfor %}
+        </div>
 
-          {% for currency,data in bxth.items %}
-          <tr>
-            <td >Bxth </td>
-            <td class="currencyy">{{currency}}</td>
-            <td >{{data.bid_qty}}</td>
-            <td >{{data.bid |floatformat:8|intcomma}}</td>
-            <td >{{data.ask |floatformat:8|intcomma}}</td>
-            <td >{{data.ask_qty}}</td>
-          </tr>
+        <div id="rocktradingButton" class="selectList"
+             onmouseover="this.style.color='blue';" onmouseout="this.style.color='#6C7A89';">Rocktrading</div>
+        <div id="rocktradingSelectList">
+          {% for pair in rocktrading_pair %}
+          <label>
+            <input class="checkboxClass" name="checkboxList"  type="checkbox"  value="{{pair}}" id="{{pair}}"> {{pair}}
+          </label><br>
           {% endfor %}
+        </div>
 
-          {% for currency,data in rocktrading.items %}
-          <tr>
-            <td >Rocktrading </td>
-            <td class="currencyy">{{currency}}</td>
-            <td >{{data.bid_qty}}</td>
-            <td >{{data.bid |floatformat:8|intcomma}}</td>
-            <td >{{data.ask |floatformat:8|intcomma}}</td>
-            <td >{{data.ask_qty}}</td>
-          </tr>
+        <div id="hitbtcButton" class="selectList"
+             onmouseover="this.style.color='blue';" onmouseout="this.style.color='#6C7A89';">Hitbtc</div>
+        <div id="hitbtcSelectList">
+          {% for pair in hitbtc_pair %}
+          <label>
+            <input class="checkboxClass" name="checkboxList"  type="checkbox"  value="{{pair}}" id="{{pair}}"> {{pair}}
+          </label><br>
           {% endfor %}
+        </div>
 
-          {% for currency,data in hitbtc.items %}
-          <tr>
-            <td >Hitbtc </td>
-            <td class="currencyy">{{currency}}</td>
-            <td >{{data.bid_qty}}</td>
-            <td >{{data.bid |floatformat:8|intcomma}}</td>
-            <td >{{data.ask |floatformat:8|intcomma}}</td>
-            <td >{{data.ask_qty}}</td>
-          </tr>
+        <div id="krakenButton" class="selectList"
+             onmouseover="this.style.color='blue';" onmouseout="this.style.color='#6C7A89';">Kraken</div>
+        <div id="krakenSelectList">
+          {% for pair in kraken_pair %}
+          <label>
+            <input class="checkboxClass" name="checkboxList"  type="checkbox"  value="{{pair}}" id="{{pair}}"> {{pair}}
+          </label><br>
           {% endfor %}
+        </div>
 
-          {% for currency,data in kraken.items %}
-          <tr>
-            <td >Kraken </td>
-            <td class="currencyy">{{currency}}</td>
-            <td >{{data.bid_qty}}</td>
-            <td >{{data.bid |floatformat:8|intcomma}}</td>
-            <td >{{data.ask|floatformat:8|intcomma}}</td>
-            <td >{{data.ask_qty}}</td>
-          </tr>
-          {% endfor %}
-          </tbody>
-        </table>
       </div>
     </div>
+
+    <div class="col-xs-12 col-md-3">
+      <table class="table table-striped" >
+        <thead>
+        <tr >
+          <th>Exchange</th>
+          <th>Currency</th>
+          <th>Bid Qty</th>
+          <th>Bid</th>
+          <th>Ask</th>
+          <th>Ask Qty</th>
+        </tr>
+        </thead>
+        <tbody id="tabela1">
+
+
+        {% for currency,data in bittrex.items %}
+        <tr>
+          <td >Bittrex </td>
+          <td class="currencyy">{{currency}}</td>
+          <td >{{data.bid_qty}}</td>
+          <td >{{data.bid |floatformat:8|intcomma}}</td>
+          <td >{{data.ask |floatformat:8|intcomma}}</td>
+          <td >{{data.ask_qty}}</td>
+        </tr>
+        {% endfor %}
+
+        {% for currency,data in bxth.items %}
+        <tr>
+          <td >Bxth </td>
+          <td class="currencyy">{{currency}}</td>
+          <td >{{data.bid_qty}}</td>
+          <td >{{data.bid |floatformat:8|intcomma}}</td>
+          <td >{{data.ask |floatformat:8|intcomma}}</td>
+          <td >{{data.ask_qty}}</td>
+        </tr>
+        {% endfor %}
+
+        {% for currency,data in rocktrading.items %}
+        <tr>
+          <td >Rocktrading </td>
+          <td class="currencyy">{{currency}}</td>
+          <td >{{data.bid_qty}}</td>
+          <td >{{data.bid |floatformat:8|intcomma}}</td>
+          <td >{{data.ask |floatformat:8|intcomma}}</td>
+          <td >{{data.ask_qty}}</td>
+        </tr>
+        {% endfor %}
+
+        {% for currency,data in hitbtc.items %}
+        <tr>
+          <td >Hitbtc </td>
+          <td class="currencyy">{{currency}}</td>
+          <td >{{data.bid_qty}}</td>
+          <td >{{data.bid |floatformat:8|intcomma}}</td>
+          <td >{{data.ask |floatformat:8|intcomma}}</td>
+          <td >{{data.ask_qty}}</td>
+        </tr>
+        {% endfor %}
+
+        {% for currency,data in kraken.items %}
+        <tr>
+          <td >Kraken </td>
+          <td class="currencyy">{{currency}}</td>
+          <td >{{data.bid_qty}}</td>
+          <td >{{data.bid |floatformat:8|intcomma}}</td>
+          <td >{{data.ask|floatformat:8|intcomma}}</td>
+          <td >{{data.ask_qty}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
+</div>
 
 
-  <script>
-    $(document).ready(function () {
+<script>
+  $(document).ready(function () {
 
-   $("#hitbtcSelectList").hide();
-   $("#rocktradingSelectList").hide();
-   $("#bittrexSelectList").hide();
-   $("#bxthSelectList").hide();
-   $("#krakenSelectList").hide();
-   $("#thead").show();
-  loadCheckBoxList();
-   $("#ClickMe").click(function () {
-  var a = $("input:checkbox:checked").map(function () {
-           return $(this).val()
-       }).toArray();
-       localStorage.setItem("exchangeAppA", JSON.stringify(a));
-       location.reload();
-  });
+ $("#hitbtcSelectList").hide();
+ $("#rocktradingSelectList").hide();
+ $("#bittrexSelectList").hide();
+ $("#bxthSelectList").hide();
+ $("#krakenSelectList").hide();
+ $("#thead").show();
+loadCheckBoxList();
+ $("#ClickMe").click(function () {
+var a = $("input:checkbox:checked").map(function () {
+         return $(this).val()
+     }).toArray();
+     localStorage.setItem("exchangeAppA", JSON.stringify(a));
 
-    function applyFilter(checkBoxList){
-                          $("#tabela1 tr").hide();
-                          var currencies = $(".currencyy").filter(function () {
-                              var currencyy = $(this).text(),
-                                  index = $.inArray(currencyy, checkBoxList);
-                              return index >= 0
-                          }).parent().show();
-                          $("#thead").show();
-      }
+     location.reload();
+});
+
+  function applyFilter(checkBoxList){
+                        $("#tabela1 tr").hide();
+                        var currencies = $(".currencyy").filter(function () {
+                            var currencyy = $(this).text(),
+                                index = $.inArray(currencyy, checkBoxList);
+                            return index >= 0
+                        }).parent().show();
+                        $("#thead").show();
+    }
 
 
-     function loadCheckBoxList() {
-     var retrievedData = localStorage.getItem("exchangeAppA");
-      var a = JSON.parse(retrievedData);
-      <!--console.log(a)-->
-      <!--console.log(typeof a)-->
-     if(typeof a !== 'undefined' && a != null && a != "null"){
-     localStorage.exchangeAppA = null;
-       $('input[name=checkboxList]').map(function () {
-           if(($.inArray($(this).val(), a) != -1)){
-            console.log($(this).val())
-            <!--console.log(typeof $(this).val())-->
-            $("." + $(this).val()).prop('checked', true);
-            <!--$(".BTC-DYN").prop('checked', true);-->
-           }
-       });
+   function loadCheckBoxList() {
+   var retrievedData = localStorage.getItem("exchangeAppA");
+    var a = JSON.parse(retrievedData);
+    <!--console.log(a)-->
+    <!--console.log(typeof a)-->
+   if(typeof a !== 'undefined' && a != null && a != "null"){
 
-       <!--var a1 = $("input:checkbox:checked").map(function () {-->
-         <!--return $(this).val()-->
-      <!--}).get();-->
-      <!--alert(a1)-->
+     $('input[name=checkboxList]').map(function () {
+         if(($.inArray($(this).val(), a) != -1)){
+          console.log($(this).val())
+          <!--console.log(typeof $(this).val())-->
+          $("#" + $(this).val()).prop('checked', true);
+          <!--$(".BTC-DYN").prop('checked', true);-->
+         }
+     });
 
+     <!--var a1 = $("input:checkbox:checked").map(function () {-->
+       <!--return $(this).val()-->
+    <!--}).get();-->
+    <!--alert(a1)-->
+
+  applyFilter(a);
+   }
+   else{
+     $("#selectAll").prop('checked', true);
+     <!--$(".checkboxClass").prop('checked', true);-->
+
+   }
+};
+
+$("input:checkbox").on("change", function () {
+    var a = $("input:checkbox:checked").map(function () {
+        return $(this).val()
+    }).get();
     applyFilter(a);
-     }
-     else{
-       <!--$("#selectAll").prop('checked', true);-->
-       <!--$(".checkboxClass").prop('checked', true);-->
-
-     }
-  };
-
-  $("input:checkbox").on("change", function () {
-      var a = $("input:checkbox:checked").map(function () {
-          return $(this).val()
-      }).get();
-      applyFilter(a);
-  }).first().change();
+}).first().change();
 
 
-  });
+});
 
 
 
-  $("#hitbtcButton").click(function(){
-      $("#hitbtcSelectList").toggle();
-  });
-  $("#rocktradingButton").click(function(){
-      $("#rocktradingSelectList").toggle();
-  });
-  $("#bittrexButton").click(function(){
-     $("#bittrexSelectList").toggle();
-  });
-  $("#bxthButton").click(function(){
-    $("#bxthSelectList").toggle();
-  });
-  $("#krakenButton").click(function(){
-    $("#krakenSelectList").toggle();
-  });
-  <!--$("#selectAll").change(function() {-->
-     <!--if(this.checked) {-->
-        <!--$(".checkboxClass").prop('checked', true);-->
-     <!--}else{-->
-        <!--$(".checkboxClass").prop('checked', false);-->
-     <!--}-->
-  <!--});-->
+$("#hitbtcButton").click(function(){
+    $("#hitbtcSelectList").toggle();
+});
+$("#rocktradingButton").click(function(){
+    $("#rocktradingSelectList").toggle();
+});
+$("#bittrexButton").click(function(){
+   $("#bittrexSelectList").toggle();
+});
+$("#bxthButton").click(function(){
+  $("#bxthSelectList").toggle();
+});
+$("#krakenButton").click(function(){
+  $("#krakenSelectList").toggle();
+});
+$("#selectAll").change(function() {
+var a = localStorage.getItem("exchangeAppA");
+   if(!(typeof a !== 'undefined' && a != null && a != "null")){
+
+   if(this.checked) {
+      $(".checkboxClass").prop('checked', true);
+   }else{
+      $(".checkboxClass").prop('checked', false);
+   }
+   }else{
+   localStorage.exchangeAppA = null;
+   }
+});
 
 
+</script>
 
-  </script>
-
-  {% endblock %}
-
+{% endblock %}
