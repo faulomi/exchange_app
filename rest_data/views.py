@@ -10,11 +10,11 @@ def home(request):
     bxth = data['bxth_data']
     hitbtc = data['hitbtc_data']
     kraken = data['kraken_data']
-    rocktrading_pair = [key for key in rocktrading]
-    bittrex_pair = [key for key in bittrex]
-    hitbtc_pair = [key for key in hitbtc]
-    bxth_pair = [key for key in bxth]
-    kraken_pair = [key for key in kraken]
+    rocktrading_pair = sorted([key for key in rocktrading])
+    bittrex_pair = sorted([key for key in bittrex])
+    hitbtc_pair = sorted([key for key in hitbtc])
+    bxth_pair = sorted([key for key in bxth])
+    kraken_pair = sorted([key for key in kraken])
     return render(request, 'rest_data/home.html', {'rocktrading': rocktrading,
                                                    'bittrex': bittrex,
                                                    'hitbtc': hitbtc,
