@@ -289,7 +289,7 @@ function selectElementContents(el) {
             range.selectNodeContents(el);
             sel.addRange(range);
             copySelectionText();
-            alert("hello");
+
 
         } catch (e) {
             range.selectNode(el);
@@ -299,8 +299,7 @@ function selectElementContents(el) {
         range = body.createTextRange();
         range.moveToElementText(el);
         range.select();
-        copySelectionText();
-        alert("else");
+
     }
 }
 
