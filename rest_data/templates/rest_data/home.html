@@ -12,7 +12,11 @@
     <div class="col-xs-12 col-md-3">
 
       <div class="checkbox" id="filter">
-        <p><input class="btn btn-primary" type="button" value="Refresh" id="ClickMe"/>
+        <p><input class="btn btn-primary" type="button" value="Copy Data"  onclick="selectElementContents( document.getElementById('example') );" />
+        </p>
+         <p><input class="btn btn-primary" type="button" value="Save" id="saveData"/> &nbsp; <input class="btn btn-primary" type="button" value="Clear" id="clearData"/>
+        </p>
+         <p><input class="btn btn-primary" type="button" value="Refresh" id="ClickMe"/>
         </p>
 
         <label><input id="selectAll" type="checkbox" > Select All</label>
@@ -71,7 +75,7 @@
     </div>
 
     <div class="col-xs-12 col-md-3">
-      <table class="table table-striped" >
+      <table class="table table-striped" id="example"  class="display">
         <thead>
         <tr >
           <th>Exchange</th>
@@ -165,10 +169,28 @@ loadCheckBoxList();
 var a = $("input:checkbox:checked").map(function () {
          return $(this).val()
      }).toArray();
-     localStorage.setItem("exchangeAppA", JSON.stringify(a));
-
+     localStorage.setItem("exchangeAppRefreshData", JSON.stringify(a));
+     localStorage.exchangeAppSaveData = null;
      location.reload();
 });
+
+$("#saveData").click(function () {
+
+var a = $("input:checkbox:checked").map(function () {
+         return $(this).val()
+     }).toArray();
+     localStorage.setItem("exchangeAppSaveData", JSON.stringify(a));
+     alert("Data Save successfully");
+});
+
+$("#clearData").click(function () {
+ if (confirm("Sure, You want to clear data")) {
+  localStorage.exchangeAppSaveData = null;
+  location.reload();
+    } else {
+    }
+});
+
 
   function applyFilter(checkBoxList){
                         $("#tabela1 tr").hide();
@@ -182,12 +204,16 @@ var a = $("input:checkbox:checked").map(function () {
 
 
    function loadCheckBoxList() {
-   var retrievedData = localStorage.getItem("exchangeAppA");
-    var a = JSON.parse(retrievedData);
+   var exchangeAppRefreshData = localStorage.getItem("exchangeAppRefreshData");
+   var exchangeAppSaveData = localStorage.getItem("exchangeAppSaveData");
+    var a = JSON.parse(exchangeAppRefreshData);
+    var b = JSON.parse(exchangeAppSaveData);
     <!--console.log(a)-->
     <!--console.log(typeof a)-->
-   if(typeof a !== 'undefined' && a != null && a != "null"){
-
+   if((typeof a !== 'undefined' && a != null && a != "null") || (typeof b !== 'undefined' && b != null && b != "null") ){
+    if(!(typeof a !== 'undefined' && a != null && a != "null")){
+      a = b;
+    }
      $('input[name=checkboxList]').map(function () {
          if(($.inArray($(this).val(), a) != -1)){
           console.log($(this).val())
@@ -239,18 +265,39 @@ $("#krakenButton").click(function(){
   $("#krakenSelectList").toggle();
 });
 $("#selectAll").change(function() {
-var a = localStorage.getItem("exchangeAppA");
-   if(!(typeof a !== 'undefined' && a != null && a != "null")){
-
+var a = localStorage.getItem("exchangeAppRefreshData");
+var b = localStorage.getItem("exchangeAppSaveData");
+    if(!((typeof a !== 'undefined' && a != null && a != "null") || (typeof b !== 'undefined' && b != null && b != "null"))){
    if(this.checked) {
       $(".checkboxClass").prop('checked', true);
    }else{
       $(".checkboxClass").prop('checked', false);
    }
    }else{
-   localStorage.exchangeAppA = null;
+   localStorage.exchangeAppRefreshData = null;
    }
 });
+
+
+function selectElementContents(el) {
+    var body = document.body, range, sel;
+    if (document.createRange && window.getSelection) {
+        range = document.createRange();
+        sel = window.getSelection();
+        sel.removeAllRanges();
+        try {
+            range.selectNodeContents(el);
+            sel.addRange(range);
+        } catch (e) {
+            range.selectNode(el);
+            sel.addRange(range);
+        }
+    } else if (body.createTextRange) {
+        range = body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+    }
+}
 
 
 </script>
