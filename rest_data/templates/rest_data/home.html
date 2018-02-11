@@ -225,9 +225,8 @@ for( i = 0; i < 1000 ; i++){
           break;
           }
       }
-
-     document.getElementById("listData").innerHTML = toShow;
  if(toShow != ""){
+    document.getElementById("listData").innerHTML = toShow;
     $('#myModal').modal('show');
   }else{
     alert("No List exist");
