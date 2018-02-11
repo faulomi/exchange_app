@@ -219,16 +219,48 @@ for( i = 0; i < 1000 ; i++){
           tempData = localStorage.getItem("exchangeAppSaveData"+i);
           if(!(typeof tempData === "undefined" || tempData === null  || tempData == "null")){
               var a = JSON.parse(tempData);
-            toShow += "<div>"+a+"  <input type='button' value='use' onclick='savedList("+a+")'> </div>";
+              var toPass = "exchangeAppSaveData"+i;
+            toShow += "<div>"+a+"  <input type='button' value='use' onclick='savedList("+i+")'> </div>";
           }else{
           break;
           }
       }
 
      document.getElementById("listData").innerHTML = toShow;
-       $('#myModal').modal('show');
+ if(toShow != ""){
+    $('#myModal').modal('show');
+  }else{
+    alert("No List exist");
+  }
 
 });
+
+window.savedList = function(i){
+ var tempData = localStorage.getItem("exchangeAppSaveData"+i);
+          if(!(typeof tempData === "undefined" || tempData === null  || tempData == "null")){
+              var a = JSON.parse(tempData);
+               $(".checkboxClass").prop('checked', false);
+               $("#selectAll").prop('checked', false);
+              $('input[name=checkboxList]').map(function () {
+                 if(($.inArray($(this).val(), a) != -1)){
+                     $("#" + $(this).val()).prop('checked', true);
+                  }
+              });
+            applyFilter(a);
+        }
+        $('#myModal').modal('hide');
+}
+
+
+  function applyFilter(checkBoxList){
+                        $("#tabela1 tr").hide();
+                        var currencies = $(".currencyy").filter(function () {
+                            var currencyy = $(this).text(),
+                                index = $.inArray(currencyy, checkBoxList);
+                            return index >= 0
+                        }).parent().show();
+                        $("#thead").show();
+    }
 
 
 
@@ -267,7 +299,6 @@ $("#clearData").click(function () {
     }
      $('input[name=checkboxList]').map(function () {
          if(($.inArray($(this).val(), a) != -1)){
-          console.log($(this).val())
           <!--console.log(typeof $(this).val())-->
           $("#" + $(this).val()).prop('checked', true);
           <!--$(".BTC-DYN").prop('checked', true);-->
@@ -365,27 +396,6 @@ function copySelectionText(){
 }
 
 
- function savedList(a){
-          if((typeof a !== 'undefined' && a != null && a != "null")){
-     $('input[name=checkboxList]').map(function () {
-         if(($.inArray($(this).val(), a) != -1)){
-          $("#" + $(this).val()).prop('checked', true);
-         }
-     });
-  applyFilter(a);
-   }
-
-    };
-
-  function applyFilter(checkBoxList){
-                        $("#tabela1 tr").hide();
-                        var currencies = $(".currencyy").filter(function () {
-                            var currencyy = $(this).text(),
-                                index = $.inArray(currencyy, checkBoxList);
-                            return index >= 0
-                        }).parent().show();
-                        $("#thead").show();
-    }
 </script>
 
 {% endblock %}
