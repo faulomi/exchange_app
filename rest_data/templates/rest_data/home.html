@@ -14,7 +14,9 @@
       <div class="checkbox" id="filter">
         <p><input class="btn btn-primary" type="button" value="Copy Data"  onclick="selectElementContents( document.getElementById('example') );" />
         </p>
-         <p><input class="btn btn-primary" type="button" value="Save" id="saveData"/> &nbsp; <input class="btn btn-primary" type="button" value="Clear" id="clearData"/>
+         <p><input class="btn btn-primary" type="button" value="Save" id="saveData"/> &nbsp;
+           <input class="btn btn-primary" type="button" value="Clear" id="clearData"/> &nbsp;
+           <input class="btn btn-primary" type="button" value=">>" id="showList"/>
         </p>
          <p><input class="btn btn-primary" type="button" value="Refresh" id="ClickMe"/>
         </p>
@@ -152,6 +154,29 @@
       </table>
     </div>
   </div>
+
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Header</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+      </div>
+      <div class="modal-body">
+        <p id="listData"></p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
 </div>
 
 
@@ -170,44 +195,70 @@ var a = $("input:checkbox:checked").map(function () {
          return $(this).val()
      }).toArray();
      localStorage.setItem("exchangeAppRefreshData", JSON.stringify(a));
-     localStorage.exchangeAppSaveData = null;
      location.reload();
 });
 
 $("#saveData").click(function () {
-
+var arr = [];
 var a = $("input:checkbox:checked").map(function () {
          return $(this).val()
      }).toArray();
-     localStorage.setItem("exchangeAppSaveData", JSON.stringify(a));
+     for(i = 0 ; i < 1000 ; i++){
+          tempData = localStorage.getItem("exchangeAppSaveData"+i);
+          if((typeof tempData === "undefined" || tempData === null  || tempData == "null")){
+            localStorage.setItem("exchangeAppSaveData"+i, JSON.stringify(a));
+            break;
+          }
+      }
      alert("Data Save successfully");
 });
 
+$("#showList").click(function () {
+var toShow = "";
+for( i = 0; i < 1000 ; i++){
+          tempData = localStorage.getItem("exchangeAppSaveData"+i);
+          if(!(typeof tempData === "undefined" || tempData === null  || tempData == "null")){
+              var a = JSON.parse(tempData);
+            toShow += "<div>"+a+"  <input type='button' value='use' onclick='savedList("+a+")'> </div>";
+          }else{
+          break;
+          }
+      }
+
+     document.getElementById("listData").innerHTML = toShow;
+       $('#myModal').modal('show');
+
+});
+
+
+
 $("#clearData").click(function () {
  if (confirm("Sure, You want to clear data")) {
-  localStorage.exchangeAppSaveData = null;
+
+    for( i = 0; i < 1000 ; i++){
+          tempData = localStorage.getItem("exchangeAppSaveData"+i);
+          if(!(typeof tempData === "undefined" || tempData === null  || tempData == "null")){
+              localStorage.setItem("exchangeAppSaveData"+i, null);
+          }else{
+          break;
+          }
+      }
+
   location.reload();
     } else {
     }
 });
 
 
-  function applyFilter(checkBoxList){
-                        $("#tabela1 tr").hide();
-                        var currencies = $(".currencyy").filter(function () {
-                            var currencyy = $(this).text(),
-                                index = $.inArray(currencyy, checkBoxList);
-                            return index >= 0
-                        }).parent().show();
-                        $("#thead").show();
-    }
+
+
+
 
 
    function loadCheckBoxList() {
    var exchangeAppRefreshData = localStorage.getItem("exchangeAppRefreshData");
-   var exchangeAppSaveData = localStorage.getItem("exchangeAppSaveData");
+   var exchangeAppSaveData = localStorage.getItem("exchangeAppSaveData0");
     var a = JSON.parse(exchangeAppRefreshData);
-    var b = JSON.parse(exchangeAppSaveData);
     <!--console.log(a)-->
     <!--console.log(typeof a)-->
    if((typeof a !== 'undefined' && a != null && a != "null") || (typeof b !== 'undefined' && b != null && b != "null") ){
@@ -266,7 +317,6 @@ $("#krakenButton").click(function(){
 });
 $("#selectAll").change(function() {
 var a = localStorage.getItem("exchangeAppRefreshData");
-var b = localStorage.getItem("exchangeAppSaveData");
     if(!((typeof a !== 'undefined' && a != null && a != "null") || (typeof b !== 'undefined' && b != null && b != "null"))){
    if(this.checked) {
       $(".checkboxClass").prop('checked', true);
@@ -315,6 +365,27 @@ function copySelectionText(){
 }
 
 
+ function savedList(a){
+          if((typeof a !== 'undefined' && a != null && a != "null")){
+     $('input[name=checkboxList]').map(function () {
+         if(($.inArray($(this).val(), a) != -1)){
+          $("#" + $(this).val()).prop('checked', true);
+         }
+     });
+  applyFilter(a);
+   }
+
+    };
+
+  function applyFilter(checkBoxList){
+                        $("#tabela1 tr").hide();
+                        var currencies = $(".currencyy").filter(function () {
+                            var currencyy = $(this).text(),
+                                index = $.inArray(currencyy, checkBoxList);
+                            return index >= 0
+                        }).parent().show();
+                        $("#thead").show();
+    }
 </script>
 
 {% endblock %}
