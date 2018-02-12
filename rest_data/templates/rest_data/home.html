@@ -78,14 +78,15 @@
 
     <div class="col-xs-12 col-md-3">
       <table class="table table-striped" id="example"  class="display">
-        <thead>
-        <tr >
+        <thead id="example_header">
+        <tr>
           <th>Exchange</th>
           <th>Currency</th>
           <th>Bid Qty</th>
           <th>Bid</th>
           <th>Ask</th>
           <th>Ask Qty</th>
+
         </tr>
         </thead>
         <tbody id="tabela1">
@@ -359,6 +360,7 @@ var a = localStorage.getItem("exchangeAppRefreshData");
 });
 
 
+
 function selectElementContents(el) {
     var body = document.body, range, sel;
     if (document.createRange && window.getSelection) {
@@ -366,9 +368,13 @@ function selectElementContents(el) {
         sel = window.getSelection();
         sel.removeAllRanges();
         try {
-            range.selectNodeContents(el);
+            var element = document.getElementById("example_header");
+            var selected_list = el;
+            selected_list.removeChild(element);
+            range.selectNodeContents(selected_list);
             sel.addRange(range);
             copySelectionText();
+            el.appendChild(element);
 
 
         } catch (e) {
