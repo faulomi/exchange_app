@@ -222,7 +222,7 @@ for( i = 0; i < 1000 ; i++){
           if(!(typeof tempData === "undefined" || tempData === null  || tempData == "null")){
               var a = JSON.parse(tempData);
               var toPass = "exchangeAppSaveData"+i;
-            toShow += "<div style='padding:5px;'><input type='button' class='btn btn-primary' value='use' onclick='savedList("+i+")'>&nbsp;&nbsp;"+a+"</div>";
+            toShow += "<div style='padding:5px;'><input type='button' class='btn btn-primary' value='use' onclick='savedList("+i+")'>&nbsp;&nbsp;List"+(i+1)+"</div>";
           }else{
           break;
           }
